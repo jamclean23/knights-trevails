@@ -1,5 +1,9 @@
 /* CSS Stylesheet */
 
+:root {
+    --boardSize: 8;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -21,8 +25,8 @@ body {
 
 .board {
     display: grid;
-    grid-template-rows: repeat(8, 1fr);
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(var(--boardSize), 1fr);
+    grid-template-columns: repeat(var(--boardSize), 1fr);
     height: 100%;
     gap: 1.5rem;
 }
@@ -35,5 +39,9 @@ body {
     min-width: none;
     min-height: none;
     border-radius: 100%;
+    white-space: nowrap;
 }
 
+svg {
+    z-index: -1;
+}
