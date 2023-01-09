@@ -8,7 +8,6 @@ const Board = (function () {
         // create an array of length*length squares
         // make a loop to account for columns, loop length times
         // within, make a loop to account for rows loop length times
-        // 
         let board = [];
         for (let i = 0; i < length; i++) {
             let row = [];
