@@ -76,7 +76,7 @@ const Board = (function () {
     }
 
     function findRoute(currentX, currentY, destinationX, destinationY, board) {
-        console.log(currentX + '-'+ currentY + ',' + destinationX + '-' + destinationY);
+        console.log('Source: ' + currentX + '-'+ currentY + ',' + '\nDestination: ' + destinationX + '-' + destinationY);
 
         let origin = findSquare(currentX, currentY, board);
         let destination = findSquare(destinationX, destinationY, board);
@@ -102,14 +102,11 @@ const Board = (function () {
                 // Dequeue parent
                 let current = queue.shift();
                 current.ancestry.push(current);
-                console.log('current ancestry');
-                console.log(current.ancestry);
 
                 // Check if found
                 if (current === destination) {
                     result = current;
                     found = true;
-                    console.log('found');
                 }
                 
                 // Enqueue children
@@ -117,8 +114,6 @@ const Board = (function () {
                     current.links.forEach((link) => {
                         if (link.visited === false) {
                             link.ancestry = [...current.ancestry];
-                            console.log('link');
-                            console.log(link);
                             queue.push(link);
                         }
 
@@ -126,8 +121,6 @@ const Board = (function () {
                 }
                 current.visited = true;
             }
-            console.log(counter + ' queues');
-            console.log(result);
             return result.ancestry;
         }
 
@@ -167,11 +160,11 @@ console.log(newBoard);
 // FUNCTIONS FOR HTML GENERATION
 
 function getUserInput () {
-    
-   let result = '\n---\nMOVES:' + Board.findRoute(0, 0, 0, 7, newBoard).reduce((string, element) => {
+    let route = Board.findRoute(0, 0, 0, 7, newBoard);
+    let result = '---\nShortest Path Found: ' + (route.length - 1) + ' moves\nMOVES:' + route.reduce((string, element) => {
         return string += ' [' + element.x + ',' + element.y + '] '
-     }, '');
-   console.log(result);
+        }, '');
+    console.log(result);
 
 }
 
