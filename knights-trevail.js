@@ -153,19 +153,55 @@ let newBoard = Board.createBoard(8);
 // HTML CSS GENERATION
 
 updateLines();
-getUserInput();
+getUserInput(0, 0, 5, 5, newBoard);
+const button = document.querySelector('.inputContainer button');
+button.addEventListener('click', () => {
+    const inputs = document.querySelectorAll('input');
+
+    getUserInput(+inputs[0].value, +inputs[1].value, +inputs[2].value, +inputs[3].value, newBoard);
+    // getUserInput(0, 0, 5, 5, newBoard);
+
+});
 console.log('---\nBOARD:');
 console.log(newBoard);
 
 // FUNCTIONS FOR HTML GENERATION
 
-function getUserInput () {
-    let route = Board.findRoute(0, 0, 0, 7, newBoard);
+function getUserInput (originX = 0, originY = 0, destinationX = 5, destinationY = 5, newBoard) {
+    newBoard.forEach((row, yIndex) => {
+        row.forEach((square, xIndex) => {
+            square.visited = false;
+            square.ancestry = [];
+        })
+    });
+    console.clear();
+    let route = Board.findRoute(originX, originY, destinationX, destinationY, newBoard);
     let result = '---\nShortest Path Found: ' + (route.length - 1) + ' moves\nMOVES:' + route.reduce((string, element) => {
         return string += ' [' + element.x + ',' + element.y + '] '
         }, '');
     console.log(result);
+    updateCircles(route);
 
+    function updateCircles (route) {
+        // Clear old circles
+        const circles = document.querySelectorAll('.board > div');
+        circles.forEach((circle) => {
+            circle.classList.remove('start');
+            circle.classList.remove('route');
+            circle.classList.remove('finish');
+        });
+
+        // Add classes to route circles
+        route.forEach((square, index) => {
+            if (index === 0){
+                square.divSquare.classList.add('start');
+            } else if (index === route.length - 1) {
+                square.divSquare.classList.add('finish');
+            } else {
+                square.divSquare.classList.add('route');
+            }
+        });
+    }
 }
 
 function updateLines () {
